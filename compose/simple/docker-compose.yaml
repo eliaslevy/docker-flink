@@ -1,0 +1,37 @@
+version: "3"
+
+# A simple Flink cluster configuration, with one job manager and one task manager with
+# four task slots.
+#
+# The web dashboard is available on the host at http://localhost:8081/.
+#
+# The host's relative "shared" directory is mounted in the taskmanager container to allow 
+# jobs to read inputs and write outputs to/from files accessible to the host.
+#
+
+services:
+
+  jobmanager:
+    image: elevy/flink_jobmanager
+    ports:
+      # Web dashboard UI accessible from the host.
+      - "127.0.0.1:8081:8081"
+    environment:
+      FLINK_JOBMANAGER_RPC_ADDRESS: jobmanager
+      FLINK_JOBMANAGER_WEB_ADDRESS: jobmanager
+      FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
+      FLINK_JOBMANAGER_HEAP_MB: 512      
+
+  taskmanager:
+    image: elevy/flink_taskmanager
+    depends_on:
+      - jobmanager
+    environment:
+      FLINK_JOBMANAGER_RPC_ADDRESS: jobmanager
+      FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
+      FLINK_TASKMANAGER_HEAP_MB: 1024
+      FLINK_TASKMANAGER_NUMBEROFTASKSLOTS: 4
+    volumes:
+      - ./shared:/shared
+
+

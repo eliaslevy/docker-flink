@@ -1,0 +1,143 @@
+# Addresses
+# =============================================================================
+{{- if exists "/flink/jobmanager/rpc/address" }}
+jobmanager.rpc.address:                   {{ getv "/flink/jobmanager/rpc/address"                             }}
+{{- end }}
+{{- if exists "/flink/jobmanager/web/address" }}
+jobmanager.web.address:                   {{ getv "/flink/jobmanager/web/address"                             }}
+{{- end }}
+{{- if exists "/flink/historyserver/web/address" }}
+historyserver.web.address:                {{ getv "/flink/historyserver/web/address"                          }}
+{{- end }}
+
+# Ports
+# =============================================================================
+jobmanager.rpc.port:                      {{ getv "/flink/jobmanager/rpc/port"              "6123"            }}
+high-availability.jobmanager.port:        {{ getv "/flink/jobmanager/rpc/port"              "6123"            }}
+blob.server.port:                         {{ getv "/flink/blob/server/port"                 "6124"            }}
+jobmanager.web.port:                      {{ getv "/flink/jobmanager/web/port"              "8081"            }}
+
+taskmanager.data.port:                    {{ getv "/flink/taskmanager/data/port"            "6121"            }}
+taskmanager.rpc.port:                     {{ getv "/flink/taskmanager/rpc/port"             "6122"            }}
+query.server.port:                        {{ getv "/flink/query/server/port"                "6125"            }}
+
+historyserver.web.port:                   {{ getv "/flink/historyserver/web/port"           "8082"            }}
+
+# General Paths
+# =============================================================================
+env.log.dir:                              {{ getv "/flink/env/log/dir"                      "/data/log"       }}
+fs.hdfs.hadoopconf:                       {{ getv "/flink/fs/hdfs/hadoopconf"               "/opt/flink/conf" }}
+
+{{ if exists "/flink/env/java/opts" -}}
+# Java
+# =============================================================================
+env.java.opts:                            {{ getv "/flink/env/java/opts"                                      }}
+
+{{ end -}}
+{{ if getenv "FLINK_JOBMANAGER" "false" | ne "false" -}}
+# Job Manager
+# =============================================================================
+{{- if exists "/flink/jobmanager/java/opts" }}
+env.java.opts.jobmanager:                 {{ getv "/flink/jobmanager/java/opts"                               }}
+{{- end }}
+jobmanager.heap.mb:                       {{ getv "/flink/jobmanager/heap/mb"               "1024"            }}
+# Enable/disable job submission via the web dashboard / REST API.
+jobmanager.web.submit.enable:             {{ getv "/flink/jobmanager/web/submit/enable"     "true"            }}
+{{- if exists "/flink/jobmanager/archive/fs/dir" }}
+# Distributed "file system" directory where to upload completed jobs.
+jobmanager.archive.fs.dir:                {{ getv "/flink/jobmanager/archive/fs/dir"                          }}
+{{- end }}
+# Parallelism used for jobs that do not specify one.
+parallelism.default:                      {{ getv "/flink/parallelism/default"              "1"               }}
+
+{{ end -}}
+{{ if getenv "FLINK_TASKMANAGER" "false" | ne "false" -}}
+# Task Manager
+# =============================================================================
+{{- if exists "/flink/taskmanager/java/opts" }}
+env.java.opts.taskmanager:                {{ getv "/flink/taskmanager/java/opts"                              }}
+{{- end }}
+taskmanager.heap.mb:                      {{ getv "/flink/taskmanager/heap/mb"              "1024"            }}
+taskmanager.numberOfTaskSlots:            {{ getv "/flink/taskmanager/numberoftaskslots"    "1"               }}
+taskmanager.tmp.dirs:                     {{ getv "/flink/taskmanager/tmp/dirs"             "/data/tmp"       }}
+# Directory for storing blobs (such as user jar’s) on the TaskManagers.
+blob.storage.directory:                   {{ getv "/flink/blob/storage/directory"           "/data/blob"      }}
+{{- if exists "/flink/taskmanager/network/memory/fraction" }}
+taskmanager.network.memory.fraction:      {{ getv "/flink/taskmanager/network/memory/fraction"                }}
+{{- end }}
+{{- if exists "/flink/taskmanager/network/numberofbuffers" }}
+taskmanager.network.numberOfBuffers:      {{ getv "/flink/taskmanager/network/numberofbuffers"                }}
+{{- end }}
+taskmanager.debug.memory.startLogThread:  {{ getv "/flink/debug/memory/startlogthread"     "false"            }}
+taskmanager.debug.memory.logIntervalMs:   {{ getv "/flink/debug/memory/logintervalms"       "5000"            }}
+
+# Managed Memory
+# Fraction of memory to use as managed memory. Not used by Streaming.
+taskmanager.memory.fraction:              {{ getv "/flink/taskmanager/memory/fraction"      "0.05"            }}
+# Whether to pre-allocate managed memory.
+taskmanager.memory.preallocate:           false
+# Whether allocated managed memory off-heap.
+taskmanager.memory.off-heap:              false
+
+{{ end -}}
+{{ if exists "/flink/ha" -}}
+# High Availability
+# =============================================================================
+high-availability:                        {{ getv "/flink/ha"                                                 }}
+high-availability.cluster-id:             {{ getv "/flink/ha/clusterid"                                       }}
+# Distributed "file system" directory where metadata for master recovery is persisted.
+high-availability.storageDir:             {{ getv "/flink/ha/storagedir"                                      }}
+# The ZooKeeper quorum, formated as: "host1:clientPort,host2:clientPort,..."
+high-availability.zookeeper.quorum:       {{ getv "/flink/ha/zookeeper/quorum"                                }}
+high-availability.zookeeper.path.root:    {{ getv "/flink/ha/zookeeper/path/root"          "/flink"           }}
+{{- if exists "/flink/ha/zookeeper/client/acl" }}
+high-availability.zookeeper.client.acl:   {{ getv "/flink/ha/zookeeper/client/acl"                            }}
+{{- end }}
+high-availability.zookeeper.client.session-timeout:     
+                                          {{ getv "/flink/ha/zookeeper/client/sessiontimeout"   "60000"       }}
+high-availability.zookeeper.client.max-retry-attempts:  
+                                          {{ getv "/flink/ha/zookeeper/client/maxretryattempts" "5"           }}
+
+{{ end -}}
+{{ if getenv "FLINK_HISTORYSERVER" "false" | ne "false" -}}
+# History Server
+# =============================================================================
+{{- if exists "/flink/jobmanager/archive/fs/dir" }}
+# Comma separated list of directories to monitor for completed jobs.
+historyserver.archive.fs.dir:             {{ getv "/flink/jobmanager/archive/fs/dir"                          }}
+{{- end }}
+# Interval in milliseconds for refreshing the monitored directories.
+historyserver.archive.fs.refresh-interval: 
+                                          {{ getv "/flink/historyserver/archive/fs/refreshinterval" "10000"   }}
+
+{{ end -}}
+{{ if or (exists "/flink/state/checkpoints/dir") (exists "/flink/state/savepoints/dir") -}}
+# State Checkpoints/Savepoints
+# =============================================================================
+# These are configuration values that currently can't be configured by the job.
+{{- if exists "/flink/state/checkpoints/dir" }}
+# Location for "external" (i.e. retained) checkpoints.
+state.checkpoints.dir:                    {{ getv "/flink/state/checkpoints/dir"                              }}
+state.checkpoints.num-retained:           {{ getv "/flink/state/checkpoints/numretained"      "3"             }}
+{{- end }}
+{{- if exists "/flink/state/savepoints/dir" }}
+state.savepoints.dir:                     {{ getv "/flink/state/savepoints/dir"                               }}
+{{- end }}
+
+{{ end -}}
+# Metrics
+# =============================================================================
+{{- if exists "/flink/metrics/reporters" }}
+metrics.reporters:                        {{ getv "/flink/metrics/reporters"                                  }}
+{{- if getv "/flink/metrics/reporters" eq "datadog" }}
+metrics.reporter.datadog.class:           org.apache.flink.metrics.datadog.DatadogHttpReporter
+metrics.reporter.datadog.apikey:          {{ getv "/datadog/api/key"                                          }}
+metrics.reporter.datadog.tags:            {{ getv "/datadog/tags"                             "flink"         }}
+{{- end }}
+{{- end }}
+metrics.scope.jm:                         jobmanager
+metrics.scope.jm.job:                     jobmanager.<job_name>
+metrics.scope.tm:                         taskmanager
+metrics.scope.tm.job:                     taskmanager.<job_name>
+metrics.scope.task:                       taskmanager.<job_name>.<task_name>
+metrics.scope.operator:                   taskmanager.<job_name>.<operator_name>

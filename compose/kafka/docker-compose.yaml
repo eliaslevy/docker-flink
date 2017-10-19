@@ -1,0 +1,79 @@
+version: "3"
+
+# A Flink cluster configuration, with one job manager and one task manager with
+# four task slots, and one Kafka broker to consume messages from and produce
+# messages to.
+#
+# The web dashboard is available on the host at http://localhost:8081/.
+#
+# The host's relative "shared" directory is mounted in the kafka container to allow
+# you to publish data to input topics.  
+# 
+# E.g. create an input in_topic topic:
+#
+#   docker-compose exec kafka kafka-topics.sh --zookeeper zookeeper:/kafka \
+#     --topic in_topic --create --partitions 1 --replication-factor 1
+#
+# create an output out_topic topic:
+#
+#   docker-compose exec kafka kafka-topics.sh --zookeeper zookeeper:/kafka \
+#     --topic out_topic --create --partitions 1 --replication-factor 1
+#
+# copy the the input data to the shared directory, then write it to the input topic:
+#
+#   docker-compose exec kafka sh -c \
+#     "kafka-console-producer.sh --broker-list kafka:9092 --topic in_topic < /shared/data > /dev/null"
+#
+#
+# read the results from the output topic:
+#
+#   docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server kafka:9092 \
+#     --topic out_topic --from-beginning 
+#
+
+services:
+
+  zookeeper:
+    image: elevy/zookeeper:v3.4.10
+    environment:
+      SERVER_JVMFLAGS: -Xmx512M -Xms512M -server -XX:+UseG1GC
+
+  kafka:
+    image: elevy/kafka:v0.11.0.1
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      ADVERTISED_HOST_NAME: kafka
+      ZOOKEEPER_SERVERS: zookeeper:2181
+      ZOOKEEPER_ROOT: /kafka
+      KAFKA_HEAP_OPTS: -Xmx512M -Xms512M
+      #KAFKA_JVM_PERFORMANCE_OPTS: 
+      OFFSETS_REPLICATION_FACTOR: 1
+    volumes:
+      - ./shared:/shared
+
+  jobmanager:
+    image: elevy/flink_jobmanager:v1.3.2
+    ports:
+      # Web dashboard UI accessible from the host.
+      - "127.0.0.1:8081:8081"
+    environment:
+      FLINK_JOBMANAGER_RPC_ADDRESS: jobmanager
+      FLINK_JOBMANAGER_WEB_ADDRESS: jobmanager
+      FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
+      FLINK_JOBMANAGER_HEAP_MB: 512
+
+  taskmanager:
+    image: elevy/flink_taskmanager:v1.3.2
+    depends_on:
+      - jobmanager
+      - kafka
+    environment:
+      FLINK_JOBMANAGER_RPC_ADDRESS: jobmanager
+      FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
+      FLINK_TASKMANAGER_HEAP_MB: 1024
+      FLINK_TASKMANAGER_NUMBEROFTASKSLOTS: 4
+
+

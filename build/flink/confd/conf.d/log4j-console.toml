@@ -1,0 +1,10 @@
+[template]
+src  = "log4j-console.properties.tmpl"
+dest = "/opt/flink/conf/log4j-console.properties"
+keys = [
+	"/flink/log/level",
+	"/flink/log/level/akka",
+	"/flink/log/level/hadoop",
+	"/flink/log/level/kafka",
+	"/flink/log/level/zookeeper",
+]

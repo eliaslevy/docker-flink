@@ -1,0 +1,4 @@
+ARG FLINK_VERSION
+FROM elevy/flink:v$FLINK_VERSION
+ENV FLINK_JOBMANAGER=true
+CMD [ "jobmanager" ]
