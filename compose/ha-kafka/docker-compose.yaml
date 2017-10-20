@@ -41,21 +41,21 @@ services:
     environment:
       MYID: 1
       SERVERS: zookeeper-1,zookeeper-2,zookeeper-3
-      SERVER_JVMFLAGS: -Xmx256M -Xms256M -server -XX:+UseG1GC
+      SERVER_JVMFLAGS: -Xmx128M -Xms128M -server -XX:+UseG1GC
 
   zookeeper-2:
     image: elevy/zookeeper:v3.4.10
     environment:
       MYID: 2
       SERVERS: zookeeper-1,zookeeper-2,zookeeper-3
-      SERVER_JVMFLAGS: -Xmx256M -Xms256M -server -XX:+UseG1GC
+      SERVER_JVMFLAGS: -Xmx128M -Xms128M -server -XX:+UseG1GC
 
   zookeeper-3:
     image: elevy/zookeeper:v3.4.10
     environment:
       MYID: 3
       SERVERS: zookeeper-1,zookeeper-2,zookeeper-3
-      SERVER_JVMFLAGS: -Xmx256M -Xms256M -server -XX:+UseG1GC
+      SERVER_JVMFLAGS: -Xmx128M -Xms128M -server -XX:+UseG1GC
 
   kafka-1:
     image: elevy/kafka:v0.11.0.1
@@ -116,7 +116,7 @@ services:
       - "127.0.0.1:8081:8081"
     environment:
       FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
-      FLINK_JOBMANAGER_HEAP_MB: 256
+      FLINK_JOBMANAGER_HEAP_MB: 128
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
       FLINK_HA_STORAGEDIR: file:///shared/ha
@@ -138,7 +138,7 @@ services:
       - "127.0.0.1:8082:8081"
     environment:
       FLINK_ENV_JAVA_OPTS: -server -XX:+UseG1GC
-      FLINK_JOBMANAGER_HEAP_MB: 256
+      FLINK_JOBMANAGER_HEAP_MB: 128
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
       FLINK_HA_STORAGEDIR: file:///shared/ha
