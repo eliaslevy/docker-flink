@@ -119,10 +119,12 @@ services:
       FLINK_JOBMANAGER_HEAP_MB: 256
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
-      FLINK_HA_STORAGEDIR: file:///shared/flink/ha
+      FLINK_HA_STORAGEDIR: file:///shared/ha
       FLINK_HA_ZOOKEEPER_QUORUM: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       FLINK_HA_ZOOKEEPER_PATH_ROOT: /flink/cluster-1
-      FLINK_STATE_CHECKPOINT_DIR: file://shared/flink/checkpoints/external
+      FLINK_STATE_CHECKPOINTS_DIR: file:///shared/checkpoints/external
+    volumes:
+      - ./shared/flink:/shared
 
   jobmanager-2:
     image: elevy/flink_jobmanager:v1.3.2
@@ -139,10 +141,12 @@ services:
       FLINK_JOBMANAGER_HEAP_MB: 256
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
-      FLINK_HA_STORAGEDIR: file:///shared/flink/ha
+      FLINK_HA_STORAGEDIR: file:///shared/ha
       FLINK_HA_ZOOKEEPER_QUORUM: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       FLINK_HA_ZOOKEEPER_PATH_ROOT: /flink/cluster-1
-      FLINK_STATE_CHECKPOINT_DIR: file://shared/flink/checkpoints/external
+      FLINK_STATE_CHECKPOINTS_DIR: file:///shared/checkpoints/external
+    volumes:
+      - ./shared/flink:/shared
 
   taskmanager-1:
     image: elevy/flink_taskmanager:v1.3.2
@@ -162,10 +166,12 @@ services:
       FLINK_TASKMANAGER_NUMBEROFTASKSLOTS: 4
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
-      FLINK_HA_STORAGEDIR: file:///shared/flink/ha
+      FLINK_HA_STORAGEDIR: file:///shared/ha
       FLINK_HA_ZOOKEEPER_QUORUM: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       FLINK_HA_ZOOKEEPER_PATH_ROOT: /flink/cluster-1
-      FLINK_STATE_CHECKPOINT_DIR: file://shared/flink/checkpoints/external
+      FLINK_STATE_CHECKPOINTS_DIR: file:///shared/checkpoints/external
+    volumes:
+      - ./shared/flink:/shared
 
   taskmanager-2:
     image: elevy/flink_taskmanager:v1.3.2
@@ -185,9 +191,11 @@ services:
       FLINK_TASKMANAGER_NUMBEROFTASKSLOTS: 4
       FLINK_HA: zookeeper
       FLINK_HA_CLUSTERID: cluster-1
-      FLINK_HA_STORAGEDIR: file:///shared/flink/ha
+      FLINK_HA_STORAGEDIR: file:///shared/ha
       FLINK_HA_ZOOKEEPER_QUORUM: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       FLINK_HA_ZOOKEEPER_PATH_ROOT: /flink/cluster-1
-      FLINK_STATE_CHECKPOINT_DIR: file://shared/flink/checkpoints/external
+      FLINK_STATE_CHECKPOINTS_DIR: file:///shared/checkpoints/external
+    volumes:
+      - ./shared/flink:/shared
 
 
