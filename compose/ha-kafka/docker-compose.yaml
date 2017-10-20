@@ -104,6 +104,7 @@ services:
 
   jobmanager-1:
     image: elevy/flink_jobmanager:v1.3.2
+    hostname: jobmanager-1
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -123,6 +124,7 @@ services:
 
   jobmanager-2:
     image: elevy/flink_jobmanager:v1.3.2
+    hostname: jobmanager-2
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -142,6 +144,7 @@ services:
 
   taskmanager-1:
     image: elevy/flink_taskmanager:v1.3.2
+    hostname: taskmanager-1
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -164,6 +167,7 @@ services:
 
   taskmanager-2:
     image: elevy/flink_taskmanager:v1.3.2
+    hostname: taskmanager-2
     depends_on:
       - zookeeper-1
       - zookeeper-2
