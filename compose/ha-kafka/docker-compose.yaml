@@ -63,6 +63,8 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+    ports:
+      - "9092:9092"
     environment:
       ADVERTISED_HOST_NAME: kafka-1
       ZOOKEEPER_SERVERS: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
@@ -78,8 +80,6 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
-    ports:
-      - "9092:9092"
     environment:
       ADVERTISED_HOST_NAME: kafka-2
       ZOOKEEPER_SERVERS: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
