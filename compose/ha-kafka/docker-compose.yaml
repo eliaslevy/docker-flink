@@ -70,7 +70,7 @@ services:
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       #KAFKA_JVM_PERFORMANCE_OPTS: 
     volumes:
-      - ./shared:/shared
+      - ./shared/kafka:/shared
 
   kafka-2:
     image: elevy/kafka:v0.11.0.1
@@ -87,7 +87,7 @@ services:
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       #KAFKA_JVM_PERFORMANCE_OPTS: 
     volumes:
-      - ./shared:/shared
+      - ./shared/kafka:/shared
 
   kafka-3:
     image: elevy/kafka:v0.11.0.1
@@ -102,7 +102,7 @@ services:
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       #KAFKA_JVM_PERFORMANCE_OPTS: 
     volumes:
-      - ./shared:/shared
+      - ./shared/kafka:/shared
 
   jobmanager-1:
     image: elevy/flink_jobmanager:v1.3.2
