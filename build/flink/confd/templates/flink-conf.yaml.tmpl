@@ -93,10 +93,11 @@ high-availability.zookeeper.path.root:    {{ getv "/flink/ha/zookeeper/path/root
 {{- if exists "/flink/ha/zookeeper/client/acl" }}
 high-availability.zookeeper.client.acl:   {{ getv "/flink/ha/zookeeper/client/acl"                            }}
 {{- end }}
-high-availability.zookeeper.client.session-timeout:     
-                                          {{ getv "/flink/ha/zookeeper/client/sessiontimeout"   "60000"       }}
-high-availability.zookeeper.client.max-retry-attempts:  
-                                          {{ getv "/flink/ha/zookeeper/client/maxretryattempts" "5"           }}
+high-availability.zookeeper.client.session-timeout:    {{ getv "/flink/ha/zookeeper/client/sessiontimeout"   "60000" }}
+high-availability.zookeeper.client.max-retry-attempts: {{ getv "/flink/ha/zookeeper/client/maxretryattempts" "5"     }}
+
+# ZooKeeper
+zookeeper.sasl.disable:                   true
 
 {{ end -}}
 {{ if getenv "FLINK_HISTORYSERVER" "false" | ne "false" -}}
@@ -107,8 +108,7 @@ high-availability.zookeeper.client.max-retry-attempts:
 historyserver.archive.fs.dir:             {{ getv "/flink/jobmanager/archive/fs/dir"                          }}
 {{- end }}
 # Interval in milliseconds for refreshing the monitored directories.
-historyserver.archive.fs.refresh-interval: 
-                                          {{ getv "/flink/historyserver/archive/fs/refreshinterval" "10000"   }}
+historyserver.archive.fs.refresh-interval: {{ getv "/flink/historyserver/archive/fs/refreshinterval" "10000"  }}
 
 {{ end -}}
 {{ if or (exists "/flink/state/checkpoints/dir") (exists "/flink/state/savepoints/dir") -}}
