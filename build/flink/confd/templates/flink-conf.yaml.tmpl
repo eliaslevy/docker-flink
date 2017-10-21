@@ -136,8 +136,8 @@ metrics.reporter.datadog.tags:            {{ getv "/datadog/tags"               
 {{- end }}
 {{- end }}
 metrics.scope.jm:                         jobmanager
-metrics.scope.jm.job:                     jobmanager.<job_name>
+metrics.scope.jm.job:                     jobmanager.job
 metrics.scope.tm:                         taskmanager
-metrics.scope.tm.job:                     taskmanager.<job_name>
-metrics.scope.task:                       taskmanager.<job_name>.<task_name>
-metrics.scope.operator:                   taskmanager.<job_name>.<operator_name>
+metrics.scope.tm.job:                     taskmanager.job
+metrics.scope.task:                       taskmanager.job.task
+metrics.scope.operator:                   taskmanager.job.operator
