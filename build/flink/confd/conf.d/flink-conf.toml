@@ -27,9 +27,6 @@ keys = [
 	"/flink/jobmanager/java/opts",
 	"/flink/jobmanager/rpc/address",
 	"/flink/jobmanager/rpc/port",
-	"/flink/jobmanager/web/address",
-	"/flink/jobmanager/web/port",
-	"/flink/jobmanager/web/submit/enable",
 	"/flink/metrics/reporters",
 	"/flink/parallelism/default",
 	"/flink/query/server/port",
@@ -45,4 +42,7 @@ keys = [
 	"/flink/taskmanager/numberoftaskslots",
 	"/flink/taskmanager/rpc/port",
 	"/flink/taskmanager/tmp/dirs",
+	"/flink/web/address",
+	"/flink/web/port",
+	"/flink/web/submit/enable",
 ]

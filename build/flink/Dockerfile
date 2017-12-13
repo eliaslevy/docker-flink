@@ -1,14 +1,10 @@
 FROM elevy/slim_java:8
 
 ARG FLINK_VERSION
-ARG HADOOP_VERSION=27
 ARG SCALA_VERSION=2.11
-ARG HADOOP_AWS_VERSION=2.7.4
-ARG AWS_SDK_VERSION=1.7.4
-ARG APACHE_HTTP_VERSION=4.2.5
 ARG CONFD_VERSION=0.13.0
 
-ARG FLINK_URL_FILE_PATH=flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop${HADOOP_VERSION}-scala_${SCALA_VERSION}.tgz
+ARG FLINK_URL_FILE_PATH=flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz
 
 ENV PATH="/opt/flink/bin:$PATH"
 
@@ -41,12 +37,8 @@ RUN apk add --no-cache --virtual .build-deps \
     # Install Datadog jar for metric reporting
     mv opt/flink-metrics-datadog* lib/ && \
     #
-    # Install dependencies needed to access S3 for checkpoints/savepoints
-    MAVEN_URL="http://search.maven.org/remotecontent?filepath=" && \
-    wget -nv -P lib/ --content-disposition "${MAVEN_URL}org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar" && \
-    wget -nv -P lib/ --content-disposition "${MAVEN_URL}com/amazonaws/aws-java-sdk/${AWS_SDK_VERSION}/aws-java-sdk-${AWS_SDK_VERSION}.jar" && \
-    wget -nv -P lib/ --content-disposition "${MAVEN_URL}org/apache/httpcomponents/httpcore/${APACHE_HTTP_VERSION}/httpcore-${APACHE_HTTP_VERSION}.jar" && \
-    wget -nv -P lib/ --content-disposition "${MAVEN_URL}org/apache/httpcomponents/httpclient/${APACHE_HTTP_VERSION}/httpclient-${APACHE_HTTP_VERSION}.jar" && \
+    # Install S3 File System jar
+    mv opt/flink-s3-fs-hadoop-* lib/ && \
     #
     # Slim down
     rm -rf \

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FLINK_VERSION=1.3.2
+FLINK_VERSION=1.4.0
 
 docker build -f flink/Dockerfile        --build-arg "FLINK_VERSION=$FLINK_VERSION" -t "elevy/flink:v$FLINK_VERSION"              flink       && \
 docker build -f jobmanager/Dockerfile   --build-arg "FLINK_VERSION=$FLINK_VERSION" -t "elevy/flink_jobmanager:v$FLINK_VERSION"   jobmanager  && \

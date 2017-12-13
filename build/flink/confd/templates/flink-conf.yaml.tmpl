@@ -3,8 +3,8 @@
 {{- if exists "/flink/jobmanager/rpc/address" }}
 jobmanager.rpc.address:                   {{ getv "/flink/jobmanager/rpc/address"                             }}
 {{- end }}
-{{- if exists "/flink/jobmanager/web/address" }}
-jobmanager.web.address:                   {{ getv "/flink/jobmanager/web/address"                             }}
+{{- if exists "/flink/web/address" }}
+jobmanager.web.address:                   {{ getv "/flink/web/address"                                        }}
 {{- end }}
 {{- if exists "/flink/historyserver/web/address" }}
 historyserver.web.address:                {{ getv "/flink/historyserver/web/address"                          }}
@@ -15,7 +15,7 @@ historyserver.web.address:                {{ getv "/flink/historyserver/web/addr
 jobmanager.rpc.port:                      {{ getv "/flink/jobmanager/rpc/port"              "6123"            }}
 high-availability.jobmanager.port:        {{ getv "/flink/jobmanager/rpc/port"              "6123"            }}
 blob.server.port:                         {{ getv "/flink/blob/server/port"                 "6124"            }}
-jobmanager.web.port:                      {{ getv "/flink/jobmanager/web/port"              "8081"            }}
+web.port:                                 {{ getv "/flink/web/port"                         "8081"            }}
 
 taskmanager.data.port:                    {{ getv "/flink/taskmanager/data/port"            "6121"            }}
 taskmanager.rpc.port:                     {{ getv "/flink/taskmanager/rpc/port"             "6122"            }}
@@ -42,7 +42,7 @@ env.java.opts.jobmanager:                 {{ getv "/flink/jobmanager/java/opts" 
 {{- end }}
 jobmanager.heap.mb:                       {{ getv "/flink/jobmanager/heap/mb"               "1024"            }}
 # Enable/disable job submission via the web dashboard / REST API.
-jobmanager.web.submit.enable:             {{ getv "/flink/jobmanager/web/submit/enable"     "true"            }}
+web.submit.enable:                        {{ getv "/flink/web/submit/enable"                "true"            }}
 {{- if exists "/flink/jobmanager/archive/fs/dir" }}
 # Distributed "file system" directory where to upload completed jobs.
 jobmanager.archive.fs.dir:                {{ getv "/flink/jobmanager/archive/fs/dir"                          }}
