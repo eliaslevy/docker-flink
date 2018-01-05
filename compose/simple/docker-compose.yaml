@@ -12,7 +12,7 @@ version: "3"
 services:
 
   jobmanager:
-    image: elevy/flink_jobmanager
+    image: elevy/flink_jobmanager:v1.4.0
     ports:
       # Web dashboard UI accessible from the host.
       - "127.0.0.1:8081:8081"
@@ -23,7 +23,7 @@ services:
       FLINK_JOBMANAGER_HEAP_MB: 512      
 
   taskmanager:
-    image: elevy/flink_taskmanager
+    image: elevy/flink_taskmanager:v1.4.0
     depends_on:
       - jobmanager
     environment:
